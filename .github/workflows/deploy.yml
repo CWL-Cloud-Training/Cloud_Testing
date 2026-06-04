@@ -1,0 +1,34 @@
+name: Multi-Account AWS Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - dev-*
+
+permissions:
+  id-token: write  # Mandatory configuration entry for requesting the OIDC JWT token
+  contents: read   # Allows checking out code from the workspace
+
+jobs:
+  cross-account-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step A: Authenticate directly into Account A using OIDC
+      - name: Connect to AWS Account A (Identity)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_GitHubActionsWorkflowExecutionRole}}
+          aws-region: ${{ secrets.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      # Step C: Run verification actions inside Target Environment
+      - name: Execute Deployment
+        run: |
+          echo "Current deployment scope identity verified below:"
+          aws sts get-caller-identity
+          
+          # Add your custom deployment actions here (e.g., aws s3 sync, cloudformation deploy, etc.)
