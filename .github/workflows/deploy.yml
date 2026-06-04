@@ -5,7 +5,12 @@ on:
     branches:
       - master
       - dev-*
+  pull_request:
+      branches:
+        - master
+        - dev-*
 
+    
 permissions:
   id-token: write  # Mandatory configuration entry for requesting the OIDC JWT token
   contents: read   # Allows checking out code from the workspace
