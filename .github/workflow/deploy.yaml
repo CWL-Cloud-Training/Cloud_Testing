@@ -3,7 +3,7 @@ name: Multi-Account AWS Deployment Pipeline
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   id-token: write  # Mandatory configuration entry for requesting the OIDC JWT token
